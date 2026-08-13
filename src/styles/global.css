@@ -1,0 +1,230 @@
+@import '@fontsource/maple-mono/400.css';
+@import '@fontsource/maple-mono/500.css';
+@import '@fontsource/maple-mono/600.css';
+@import '@fontsource/maple-mono/700.css';
+
+@import './palettes.css';
+
+:root {
+  --black: 35, 39, 35;
+  --gray: 112, 119, 111;
+  --gray-light: 226, 231, 224;
+  --gray-dark: 48, 53, 49;
+  --paper-bg: #fdfdf9;
+  --paper-bg-deep: #f3f5ef;
+  --paper-surface: #fffffc;
+  --paper-surface-muted: #f7f8f3;
+  --paper-surface-rgb: 255, 255, 252;
+  --paper-line: rgba(31, 35, 40, 0.075);
+  --paper-line-strong: rgba(31, 35, 40, 0.12);
+  --paper-ink: #272d28;
+  --paper-ink-soft: #667066;
+  --paper-ink-faint: #90998f;
+  --paper-control: rgba(246, 248, 245, 0.76);
+  --paper-control-hover: rgba(238, 243, 237, 0.92);
+  --paper-nav: rgba(255, 255, 252, 0.92);
+  --paper-card-wash-top: rgba(255, 255, 252, 0.78);
+  --paper-card-wash-bottom: rgba(247, 248, 243, 0.52);
+  --paper-page-bg: #fdfdf9;
+  --paper-detail-bg: #fdfdf9;
+  --paper-texture-light: rgba(255, 255, 255, 0.18);
+  --paper-theme-color: #fdfdf9;
+  --paper-shadow: 0 1px 2px rgba(31, 35, 40, 0.03), 0 4px 12px rgba(31, 35, 40, 0.02);
+  --paper-shadow-lift: 0 1px 2px rgba(31, 35, 40, 0.04), 0 6px 14px rgba(31, 35, 40, 0.025);
+  --layout-shell-width: 1168px;
+  --layout-reading-width: 760px;
+  --layout-page-gutter: 32px;
+  --layout-page-top: 126px;
+  --layout-page-bottom: 72px;
+  --page-header-spacing: 54px;
+  --page-header-spacing-mobile: 28px;
+  --font-cjk-system: 'Maple Mono', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --font-ui-cjk: var(--font-cjk-system);
+  --font-serif-cn: var(--font-ui-cjk);
+  --font-mono: 'Maple Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-body: var(--font-mono);
+  --font-display: var(--font-mono);
+  --font-note: var(--font-mono);
+  --font-article: 'Maple Mono', var(--font-cjk-system);
+  --font-heading: 'Maple Mono', var(--font-cjk-system);
+  --font-page-heading: 'Maple Mono', var(--font-cjk-system);
+  --font-meta: var(--font-mono);
+  --font-code: var(--font-mono);
+  --font-ui-label: var(--font-mono);
+  --gray-gradient: rgba(226, 231, 224, 0.38), var(--paper-bg);
+  --box-shadow: var(--paper-shadow-lift);
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --black: 234, 235, 229;
+  --gray: 166, 175, 164;
+  --gray-light: 56, 64, 56;
+  --gray-dark: 225, 229, 221;
+  --paper-bg: #171b18;
+  --paper-bg-deep: #111411;
+  --paper-surface: #202620;
+  --paper-surface-muted: #273026;
+  --paper-surface-rgb: 32, 38, 32;
+  --paper-line: rgba(217, 229, 213, 0.08);
+  --paper-line-strong: rgba(217, 229, 213, 0.14);
+  --paper-ink: #eaebe5;
+  --paper-ink-soft: #b5beb1;
+  --paper-ink-faint: #899487;
+  --paper-control: rgba(42, 51, 43, 0.72);
+  --paper-control-hover: rgba(52, 64, 53, 0.88);
+  --paper-nav: rgba(32, 38, 32, 0.92);
+  --paper-card-wash-top: rgba(39, 47, 39, 0.72);
+  --paper-card-wash-bottom: rgba(28, 33, 28, 0.52);
+  --paper-page-bg: linear-gradient(180deg, rgba(23, 27, 24, 0.98) 0%, rgba(17, 20, 17, 0.98) 100%);
+  --paper-detail-bg: linear-gradient(180deg, rgba(23, 27, 24, 0.98) 0%, rgba(17, 20, 17, 0.98) 100%);
+  --paper-texture-light: rgba(255, 255, 255, 0.035);
+  --paper-shadow: 0 1px 2px rgba(0, 0, 0, 0.14), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --paper-shadow-lift: 0 1px 2px rgba(0, 0, 0, 0.16), 0 6px 14px rgba(0, 0, 0, 0.1);
+  --paper-theme-color: #171b18;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper-bg);
+  scrollbar-gutter: stable;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--paper-page-bg);
+  color: var(--paper-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.8;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(var(--paper-rule) 1px, transparent 1px);
+  background-size: 100% 32px;
+  opacity: 0.28;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.5rem 0;
+  color: var(--paper-ink);
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+p { margin-bottom: 1em; }
+a { color: inherit; }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+input, textarea, select { font-size: 16px; }
+button, a { -webkit-tap-highlight-color: transparent; }
+
+.theme-icon-sun { display: none; }
+:root[data-theme='dark'] .theme-icon-moon { display: none; }
+:root[data-theme='dark'] .theme-icon-sun { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+.sr-only {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ===== Password guard (来时路 access gate) ===== */
+.password-guard {
+  min-height: calc(100vh - 220px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+}
+.password-guard-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 36px;
+  border: 1px solid var(--paper-line);
+  border-radius: 16px;
+  background: var(--paper-surface);
+  box-shadow: var(--paper-shadow);
+  text-align: center;
+}
+.password-guard-title {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--paper-ink);
+}
+.password-guard-hint {
+  margin: 0 0 26px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--paper-ink-soft);
+}
+.password-guard-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.password-guard-input {
+  padding: 11px 14px;
+  font-size: 15px;
+  border: 1px solid var(--paper-line-strong);
+  border-radius: 8px;
+  background: var(--paper-control);
+  color: var(--paper-ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.password-guard-input:focus {
+  border-color: var(--paper-accent);
+}
+.password-guard-btn {
+  padding: 11px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid var(--paper-accent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--paper-accent) 14%, transparent);
+  color: var(--paper-accent);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.password-guard-btn:hover {
+  background: color-mix(in srgb, var(--paper-accent) 24%, transparent);
+}
+.password-guard-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.password-guard-error {
+  margin: 14px 0 0;
+  font-size: 14px;
+  color: #c25e5e;
+}
