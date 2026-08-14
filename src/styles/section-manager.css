@@ -237,3 +237,55 @@
     padding: 16px 16px;
   }
 }
+/* ---------- 拾光集：评分（星星 + 数字）---------- */
+.cm-card.has-rating .cm-actions {
+  margin-left: 0;
+}
+.cm-rating {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1;
+  user-select: none;
+}
+.cm-stars {
+  letter-spacing: 0.04em;
+  font-size: 0.98rem;
+  display: inline-flex;
+}
+.cm-stars .on {
+  color: #ffd700;
+}
+.cm-stars .off {
+  color: #cfcfcf;
+}
+.cm-rating-value {
+  color: #777;
+  font-family: var(--font-ui-label);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+[data-theme="dark"] .cm-stars .on {
+  color: #ffc107;
+}
+[data-theme="dark"] .cm-stars .off {
+  color: #e0e0e0;
+}
+[data-theme="dark"] .cm-rating-value {
+  color: #ffffff;
+}
+
+/* ---------- 拾光集：分类徽章（颜色按分类配置）---------- */
+.cm-category {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-family: var(--font-ui-label);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}

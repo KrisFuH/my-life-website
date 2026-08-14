@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getSectionData, createEntry, updateEntry, deleteEntry } from '../api.js';
 import { useEditMode } from '../editMode.js';
+import { CATEGORIES_BY_KIND, categoryColor, hasCategorySelector } from '../experienceMeta.js';
 import '../styles/section-manager.css';
 
 const NEW_ID = '__new';
@@ -32,19 +33,21 @@ const CONFIGS = {
     addLabel: '＋ 新增一段体验',
     hideDescription: true,
     fields: [
-      { key: 'kind', label: '类型', type: 'text', placeholder: '如：游戏 / 阅读 / 旅行' },
+      { key: 'kind', label: '类型', type: 'text', placeholder: '如：游戏 / 阅读 / 旅行 / 影视' },
+      { key: 'category', label: '分类', type: 'select', optionsFor: (d) => CATEGORIES_BY_KIND[d.kind] || [], showWhen: (d) => hasCategorySelector(d.kind), includeEmpty: true, placeholder: '选择分类' },
       { key: 'place', label: '地点', type: 'text', placeholder: '如：青海 · 甘肃', showWhen: (d) => d.kind === '旅行' },
       { key: 'date', label: '日期', type: 'text', placeholder: '如：2026.08' },
       { key: 'title', label: '标题', type: 'text', placeholder: '这段体验叫什么' },
+      { key: 'rating', label: '评分', type: 'select', options: ['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'], includeEmpty: true, placeholder: '未评分' },
       { key: 'description', label: '描述', type: 'textarea', placeholder: '写下这段体验……' },
       { key: 'image', label: '图片 URL', type: 'text', placeholder: 'https://... 或 /images/xxx.jpg' },
     ],
-    empty: { kind: '', date: '', title: '', place: '', description: '', tags: [], image: '' },
+    empty: { kind: '', category: '', date: '', title: '', place: '', rating: '', description: '', tags: [], image: '' },
   },
 };
 
 function fieldValue(entry, key) {
-  if (key === 'badge') return entry?.category || entry?.kind || '';
+  if (key === 'badge') return entry?.kind || entry?.category || '';
   if (key === 'date') return entry?.period || entry?.date || '';
   return entry?.[key] || '';
 }
@@ -174,16 +177,18 @@ export default function SectionManager({ section }) {
     }
   };
 
-  const renderField = (f, value, onChange) => {
+  const renderField = (f, value, onChange, draft) => {
     if (f.type === 'textarea') {
       return (
         <textarea value={value} placeholder={f.placeholder || ''} onChange={(e) => onChange(e.target.value)} />
       );
     }
     if (f.type === 'select') {
+      const options = typeof f.optionsFor === 'function' ? f.optionsFor(draft || {}) : (f.options || []);
       return (
         <select value={value} onChange={(e) => onChange(e.target.value)}>
-          {(f.options || []).map((o) => (
+          {f.includeEmpty ? <option value="">{f.placeholder || '请选择'}</option> : null}
+          {options.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
@@ -206,7 +211,7 @@ export default function SectionManager({ section }) {
             return (
               <label key={f.key}>
                 {f.label}
-                {renderField(f, draft[f.key] ?? '', (val) => setDraft(id, { [f.key]: val }))}
+                {renderField(f, draft[f.key] ?? '', (val) => setDraft(id, { [f.key]: val }), draft)}
               </label>
             );
           })}
@@ -231,12 +236,25 @@ export default function SectionManager({ section }) {
     const place = fieldValue(entry, 'place');
     const desc = fieldValue(entry, 'description');
     const image = fieldValue(entry, 'image');
+    const rating = fieldValue(entry, 'rating');
+    const category = fieldValue(entry, 'category');
+    const kind = fieldValue(entry, 'kind');
     const id = String(entry.id);
     return (
-      <article className="cm-card" key={id}>
+      <article className={'cm-card' + (rating ? ' has-rating' : '')} key={id}>
         <div className="cm-card-head">
           {badge ? <span className="cm-badge">{badge}</span> : null}
           {date ? <span className="cm-date">{date}</span> : null}
+          {rating ? (
+            <span className="cm-rating" title={'评分 ' + rating}>
+              <span className="cm-stars">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <span key={i} className={i < Math.floor(Number(rating)) ? 'on' : 'off'}>★</span>
+                ))}
+              </span>
+              <span className="cm-rating-value">{Number(rating).toFixed(1)}</span>
+            </span>
+          ) : null}
           {editMode ? (<span className="cm-actions">
             <button type="button" className="cm-icon-btn" title="编辑" aria-label="编辑" onClick={() => startEdit(id)}>
               {PencilIcon}
@@ -246,6 +264,18 @@ export default function SectionManager({ section }) {
             </button>
           </span>) : null}
         </div>
+        {category && hasCategorySelector(kind) ? (
+          <span
+            className="cm-category"
+            style={{
+              color: categoryColor(category),
+              borderColor: categoryColor(category),
+              background: categoryColor(category) + '1f',
+            }}
+          >
+            {category}
+          </span>
+        ) : null}
         {title ? <h3>{title}</h3> : null}
         {place ? <p className="cm-place">{place}</p> : null}
         {level ? <p className="cm-level">{level}</p> : null}
