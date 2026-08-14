@@ -172,3 +172,8 @@ footer p {
     color: var(--paper-accent);
   }
 }
+/* 编辑模式锁按钮 */
+.blog-top-nav .nav-actions .edit-lock-btn.active {
+  border-color: var(--accent, #e85d4a);
+  color: var(--accent, #e85d4a);
+}

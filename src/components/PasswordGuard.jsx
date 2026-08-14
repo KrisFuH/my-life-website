@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { verifyPassword } from '../api.js';
+import { setEditMode } from '../editMode.js';
 
 const STORAGE_KEY = 'auth_coming_road';
 const AUTH_TOKEN_KEY = 'auth_token_coming_road';
@@ -27,6 +28,7 @@ export default function PasswordGuard({ children }) {
         if (result.token) {
           try { sessionStorage.setItem(AUTH_TOKEN_KEY, result.token); } catch { /* ignore */ }
         }
+        setEditMode(true);
         try {
           sessionStorage.setItem(STORAGE_KEY, 'true');
         } catch {

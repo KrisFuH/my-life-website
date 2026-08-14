@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getHomeData, saveHomeData, uploadImage } from '../api.js';
+import { useEditMode } from '../editMode.js';
 import '../styles/home.css';
 
 function setPath(obj, path, value) {
@@ -48,6 +49,7 @@ export default function HomePage() {
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
   const [editing, setEditing] = useState(false);
+  const { editMode } = useEditMode();
   const [draft, setDraft] = useState(null);
   const [saving, setSaving] = useState(false);
   const [imgTarget, setImgTarget] = useState(null);
@@ -88,6 +90,11 @@ export default function HomePage() {
     setImgTarget(null);
     setImgNotice('');
   };
+
+  useEffect(() => {
+    if (!editMode && editing) cancelEdit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editMode]);
 
   const saveEdit = async () => {
     setSaving(true);
@@ -273,9 +280,11 @@ export default function HomePage() {
         ))}
       </section>
 
-      <button className="home-edit-fab" type="button" onClick={editing ? cancelEdit : startEdit}>
-        {editing ? '完成' : '编辑'}
-      </button>
+      {editMode ? (
+        <button className="home-edit-fab" type="button" onClick={editing ? cancelEdit : startEdit}>
+          {editing ? '完成' : '编辑'}
+        </button>
+      ) : null}
 
       {imgTarget && (
         <div className="home-img-dialog-mask" onClick={() => setImgTarget(null)}>

@@ -1,0 +1,55 @@
+.edit-gate-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  padding: 16px;
+}
+.edit-gate-card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--card-bg, #fff);
+  color: var(--text, #222);
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+.edit-gate-title { margin: 0 0 8px; font-size: 18px; }
+.edit-gate-hint { margin: 0 0 18px; font-size: 13px; opacity: 0.75; }
+.edit-gate-form { display: flex; flex-direction: column; gap: 10px; }
+.edit-gate-input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.2));
+  background: var(--input-bg, #fafafa);
+  color: inherit;
+  font-size: 15px;
+}
+.edit-gate-btn {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent, #e85d4a);
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+.edit-gate-btn:disabled { opacity: 0.6; cursor: default; }
+.edit-gate-skip {
+  margin-top: 12px;
+  padding: 6px 10px;
+  border: none;
+  background: none;
+  color: inherit;
+  opacity: 0.7;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.edit-gate-error { margin: 12px 0 0; color: #c25e5e; font-size: 13px; }

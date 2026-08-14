@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getSectionData, createEntry, updateEntry, deleteEntry } from '../api.js';
+import { useEditMode } from '../editMode.js';
 import '../styles/section-manager.css';
 
 const NEW_ID = '__new';
@@ -66,6 +67,7 @@ const TrashIcon = (
 
 export default function SectionManager({ section }) {
   const config = CONFIGS[section];
+  const { editMode } = useEditMode();
   const [entries, setEntries] = useState([]);
   const [creating, setCreating] = useState(false);
   const [editingIds, setEditingIds] = useState(() => new Set());
@@ -235,14 +237,14 @@ export default function SectionManager({ section }) {
         <div className="cm-card-head">
           {badge ? <span className="cm-badge">{badge}</span> : null}
           {date ? <span className="cm-date">{date}</span> : null}
-          <span className="cm-actions">
+          {editMode ? (<span className="cm-actions">
             <button type="button" className="cm-icon-btn" title="编辑" aria-label="编辑" onClick={() => startEdit(id)}>
               {PencilIcon}
             </button>
             <button type="button" className="cm-icon-btn cm-delete" title="删除" aria-label="删除" onClick={() => handleDelete(id)}>
               {TrashIcon}
             </button>
-          </span>
+          </span>) : null}
         </div>
         {title ? <h3>{title}</h3> : null}
         {place ? <p className="cm-place">{place}</p> : null}
@@ -265,9 +267,11 @@ export default function SectionManager({ section }) {
 
   return (
     <div className="section-manager" data-pagefind-ignore>
-      <button type="button" className="cm-add-btn" onClick={startCreate}>
-        {config.addLabel}
-      </button>
+      {editMode ? (
+        <button type="button" className="cm-add-btn" onClick={startCreate}>
+          {config.addLabel}
+        </button>
+      ) : null}
       {error ? (
         <p className="cm-empty" style={{ color: '#c25e5e' }}>
           {error}
