@@ -1,3 +1,8 @@
+# /api 交给真实后端处理，避免被 SPA 重定向吞掉
+[[redirects]]
+  from = "/api/*"
+  to = "/index.html"
+  status = 404
 # Netlify build & deploy configuration
 [build]
   command = "npm install && npm run build"
