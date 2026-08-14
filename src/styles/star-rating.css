@@ -1,0 +1,44 @@
+/* ---------- SVG 星星评分 ---------- */
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  line-height: 1;
+  vertical-align: middle;
+}
+.star-rating .star-cell {
+  display: inline-flex;
+  transition: transform 150ms ease;
+}
+.star-rating.interactive .star-cell {
+  cursor: pointer;
+}
+.star-rating.interactive .star-cell:hover {
+  transform: scale(1.1);
+}
+.star-rating .star-cell.bounce {
+  animation: star-bounce 420ms cubic-bezier(0.2, 0.8, 0.3, 1.2);
+}
+@keyframes star-bounce {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.35); }
+  65% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+.star-rating .star-ring {
+  fill: none;
+  stroke: #cfcfcf;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+.star-rating .star-fill {
+  fill: #ffd700;
+  filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.55));
+}
+[data-theme="dark"] .star-rating .star-ring {
+  stroke: #e0e0e0;
+}
+[data-theme="dark"] .star-rating .star-fill {
+  fill: #ffc107;
+  filter: drop-shadow(0 0 3px rgba(255, 193, 7, 0.6));
+}

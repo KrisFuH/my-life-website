@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getSectionData, createEntry, updateEntry, deleteEntry } from '../api.js';
 import { useEditMode } from '../editMode.js';
 import { CATEGORIES_BY_KIND, categoryColor, hasCategorySelector } from '../experienceMeta.js';
+import StarRating from './StarRating.jsx';
 import '../styles/section-manager.css';
 
 const NEW_ID = '__new';
@@ -38,7 +39,7 @@ const CONFIGS = {
       { key: 'place', label: '地点', type: 'text', placeholder: '如：青海 · 甘肃', showWhen: (d) => d.kind === '旅行' },
       { key: 'date', label: '日期', type: 'text', placeholder: '如：2026.08' },
       { key: 'title', label: '标题', type: 'text', placeholder: '这段体验叫什么' },
-      { key: 'rating', label: '评分', type: 'select', options: ['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'], includeEmpty: true, placeholder: '未评分' },
+      { key: 'rating', label: '评分', type: 'rating' },
       { key: 'description', label: '描述', type: 'textarea', placeholder: '写下这段体验……' },
       { key: 'image', label: '图片 URL', type: 'text', placeholder: 'https://... 或 /images/xxx.jpg' },
     ],
@@ -183,6 +184,9 @@ export default function SectionManager({ section }) {
         <textarea value={value} placeholder={f.placeholder || ''} onChange={(e) => onChange(e.target.value)} />
       );
     }
+    if (f.type === 'rating') {
+      return <StarRating value={value} size={22} onChange={onChange} />;
+    }
     if (f.type === 'select') {
       const options = typeof f.optionsFor === 'function' ? f.optionsFor(draft || {}) : (f.options || []);
       return (
@@ -247,11 +251,7 @@ export default function SectionManager({ section }) {
           {date ? <span className="cm-date">{date}</span> : null}
           {rating ? (
             <span className="cm-rating" title={'评分 ' + rating}>
-              <span className="cm-stars">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <span key={i} className={i < Math.floor(Number(rating)) ? 'on' : 'off'}>★</span>
-                ))}
-              </span>
+              <StarRating value={rating} size={15} readOnly />
               <span className="cm-rating-value">{Number(rating).toFixed(1)}</span>
             </span>
           ) : null}
