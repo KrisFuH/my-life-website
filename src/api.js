@@ -1,9 +1,27 @@
 const BASE = import.meta.env.VITE_API_BASE || '/api';
 
+// 来时路访问 token（登录验证成功后写入 sessionStorage）
+const AUTH_TOKEN_KEY = 'auth_token_coming_road';
+
+function getAuthToken() {
+  try {
+    return sessionStorage.getItem(AUTH_TOKEN_KEY) || '';
+  } catch {
+    return '';
+  }
+}
+
+function authHeaders(options) {
+  const headers = { 'Content-Type': 'application/json' };
+  const token = getAuthToken();
+  if (token) headers.Authorization = 'Bearer ' + token;
+  return { ...(options.headers || {}), ...headers };
+}
+
 async function request(path, options = {}) {
   const res = await fetch(BASE + path, {
-    headers: { 'Content-Type': 'application/json' },
     ...options,
+    headers: authHeaders(options),
   });
   let json = {};
   try {

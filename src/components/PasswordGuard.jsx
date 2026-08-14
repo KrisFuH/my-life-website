@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { verifyPassword } from '../api.js';
 
 const STORAGE_KEY = 'auth_coming_road';
+const AUTH_TOKEN_KEY = 'auth_token_coming_road';
 
 export default function PasswordGuard({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     try {
-      return sessionStorage.getItem(STORAGE_KEY) === 'true';
+      return sessionStorage.getItem(STORAGE_KEY) === 'true' && !!sessionStorage.getItem(AUTH_TOKEN_KEY);
     } catch {
       return false;
     }
@@ -23,6 +24,9 @@ export default function PasswordGuard({ children }) {
     try {
       const result = await verifyPassword(password);
       if (result && result.success) {
+        if (result.token) {
+          try { sessionStorage.setItem(AUTH_TOKEN_KEY, result.token); } catch { /* ignore */ }
+        }
         try {
           sessionStorage.setItem(STORAGE_KEY, 'true');
         } catch {
