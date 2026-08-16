@@ -1,5 +1,7 @@
 const BASE = import.meta.env.VITE_API_BASE || '/api';
 
+export const API_BASE = BASE;
+
 // 来时路访问 token（登录验证成功后写入 sessionStorage）
 const AUTH_TOKEN_KEY = 'auth_token_coming_road';
 

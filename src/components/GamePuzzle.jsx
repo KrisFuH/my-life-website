@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { listEntries, searchSteamGrid } from '../api.js';
+import { API_BASE, listEntries, searchSteamGrid } from '../api.js';
 import '../styles/game-puzzle.css';
 
 // 解析游戏时长：支持 "120h"、"45小时"、"2h 30m"、"36.5" 等
@@ -24,7 +24,7 @@ function fmtHours(h) {
   return h + ' h';
 }
 
-const COVER_CACHE_KEY = 'sgdb_cover_cache_v1';
+const COVER_CACHE_KEY = 'sgdb_cover_cache_v2';
 function readCoverCache() {
   try { return JSON.parse(sessionStorage.getItem(COVER_CACHE_KEY) || '{}'); } catch { return {}; }
 }
@@ -43,6 +43,7 @@ const TILE_ASPECT = 0.72; // 高 = 宽 / 0.72（竖版封面）
 function Cover({ title, url, hours }) {
   const [err, setErr] = useState(false);
   const style = { width: '100%', height: '100%' };
+  const src = url ? (url.indexOf('data:') === 0 || url.indexOf('http') === 0 ? url : API_BASE + url) : null;
   if (err || !url) {
     return (
       <div className="gp-cover gp-cover-ph" style={style}>
@@ -53,7 +54,7 @@ function Cover({ title, url, hours }) {
   }
   return (
     <div className="gp-cover" style={style}>
-      <img src={url} alt={title} loading="lazy" onError={() => setErr(true)} />
+      <img src={src} alt={title} loading="lazy" onError={() => setErr(true)} />
       <span className="gp-cover-name">{title}</span>
       <span className="gp-cover-h">{fmtHours(hours)}</span>
     </div>
