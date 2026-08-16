@@ -76,26 +76,25 @@ export default function GamePuzzle() {
           .filter((e) => e.kind === '游戏')
           .map((e) => ({ id: e.id, title: e.title || '', hours: parseDuration(e.duration) }));
         if (!active) return;
-        setGames(gs);
-        // 后台并行拉封面（带缓存）
         const cache = readCoverCache();
+        setGames(gs.map((g) => ({ ...g, cover: cache[g.title] || null })));
+        setLoading(false); // 先渲染拼图（占位），封面后台加载
+        // 逐张拉封面，拉到即更新对应卡片
         const missing = gs.filter((g) => !cache[g.title]);
-        const results = await Promise.all(
-          missing.map((g) =>
-            searchSteamGrid(g.title)
-              .then((r) => ({ title: g.title, url: r && r.imageUrl }))
-              .catch(() => ({ title: g.title, url: null })),
-          ),
-        );
-        results.forEach((r) => { if (r.url) cache[r.title] = r.url; });
-        writeCoverCache(cache);
-        if (active) {
-          setGames((prev) => prev.map((g) => ({ ...g, cover: cache[g.title] || null })));
+        for (const g of missing) {
+          try {
+            const r = await searchSteamGrid(g.title);
+            if (r && r.imageUrl) {
+              cache[g.title] = r.imageUrl;
+              if (active) {
+                setGames((prev) => prev.map((x) => (x.id === g.id ? { ...x, cover: r.imageUrl } : x)));
+              }
+            }
+          } catch { /* 保持占位图 */ }
         }
+        writeCoverCache(cache);
       } catch (e) {
-        if (active) setError(e.message);
-      } finally {
-        if (active) setLoading(false);
+        if (active) { setError(e.message); setLoading(false); }
       }
     })();
     return () => { active = false; };
@@ -114,7 +113,6 @@ export default function GamePuzzle() {
 
   const total = useMemo(() => games.reduce((s, g) => s + g.hours, 0), [games]);
   const ranked = useMemo(() => [...games].sort((a, b) => b.hours - a.hours), [games]);
-  const top = ranked.slice(0, 8);
 
   // 瀑布流排版：按时长定宽，放入最矮列（绝对定位 masonry）
   const layout = useMemo(() => {
@@ -165,23 +163,9 @@ export default function GamePuzzle() {
           <span className="gp-stat-label">游戏数量</span>
         </div>
         <div className="gp-stat">
-          <span className="gp-stat-num">{top[0] ? top[0].title.replace(/[《》]/g, '') : '-'}</span>
+          <span className="gp-stat-num">{ranked[0] ? ranked[0].title.replace(/[《》]/g, '') : '-'}</span>
           <span className="gp-stat-label">时长冠军</span>
         </div>
-      </div>
-
-      <h4 className="gp-sec-title">⏱ 时长排行榜</h4>
-      <div className="gp-rank">
-        {top.map((g, i) => (
-          <div className="gp-rank-item" key={g.id}>
-            <span className={'gp-rank-no' + (i < 3 ? ' top' : '')}>{i + 1}</span>
-            <span className="gp-rank-name">{g.title.replace(/[《》]/g, '')}</span>
-            <span className="gp-rank-bar">
-              <span className="gp-rank-bar-in" style={{ width: total ? Math.round((g.hours / top[0].hours) * 100) + '%' : '0%' }} />
-            </span>
-            <span className="gp-rank-h">{fmtHours(g.hours)}</span>
-          </div>
-        ))}
       </div>
 
       <h4 className="gp-sec-title">🧩 游戏生涯拼图</h4>
