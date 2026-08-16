@@ -162,10 +162,6 @@ export default function GamePuzzle() {
           <span className="gp-stat-num">{games.length}</span>
           <span className="gp-stat-label">游戏数量</span>
         </div>
-        <div className="gp-stat">
-          <span className="gp-stat-num">{ranked[0] ? ranked[0].title.replace(/[《》]/g, '') : '-'}</span>
-          <span className="gp-stat-label">时长冠军</span>
-        </div>
       </div>
 
       <h4 className="gp-sec-title">🧩 游戏生涯拼图</h4>
