@@ -55,6 +55,11 @@ export function deleteEntry(key, id) {
 export function uploadImage(name, dataUrl) {
   return request('/upload-image', { method: 'POST', body: JSON.stringify({ name, dataUrl }) });
 }
+// SteamGridDB 封面搜索（经后端代理 + 缓存）
+export function searchSteamGrid(name) {
+  return request('/steamgrid/search?name=' + encodeURIComponent(name));
+}
+
 export async function verifyPassword(password) {
   let res;
   try {

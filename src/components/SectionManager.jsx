@@ -37,13 +37,14 @@ const CONFIGS = {
       { key: 'kind', label: '类型', type: 'text', placeholder: '如：游戏 / 阅读 / 旅行 / 影视' },
       { key: 'category', label: '分类', type: 'select', optionsFor: (d) => CATEGORIES_BY_KIND[d.kind] || [], showWhen: (d) => hasCategorySelector(d.kind), includeEmpty: true, placeholder: '选择分类' },
       { key: 'place', label: '地点', type: 'text', placeholder: '如：青海 · 甘肃', showWhen: (d) => d.kind === '旅行' },
+      { key: 'duration', label: '游戏时长', type: 'text', placeholder: '如：120h 或 45小时', showWhen: (d) => d.kind === '游戏' },
       { key: 'date', label: '日期', type: 'text', placeholder: '如：2026.08' },
       { key: 'title', label: '标题', type: 'text', placeholder: '这段体验叫什么' },
       { key: 'rating', label: '评分', type: 'rating' },
       { key: 'description', label: '描述', type: 'textarea', placeholder: '写下这段体验……' },
       { key: 'image', label: '图片 URL', type: 'text', placeholder: 'https://... 或 /images/xxx.jpg' },
     ],
-    empty: { kind: '', category: '', date: '', title: '', place: '', rating: '', description: '', tags: [], image: '' },
+    empty: { kind: '', category: '', date: '', title: '', place: '', duration: '0h', rating: '', description: '', tags: [], image: '' },
   },
 };
 
@@ -243,6 +244,7 @@ export default function SectionManager({ section }) {
     const rating = fieldValue(entry, 'rating');
     const category = fieldValue(entry, 'category');
     const kind = fieldValue(entry, 'kind');
+    const duration = fieldValue(entry, 'duration');
     const id = String(entry.id);
     return (
       <article className={'cm-card' + (rating ? ' has-rating' : '')} key={id}>
@@ -277,6 +279,7 @@ export default function SectionManager({ section }) {
           </span>
         ) : null}
         {title ? <h3>{title}</h3> : null}
+        {kind === '游戏' && duration ? <p className="cm-duration">⏱ {duration}</p> : null}
         {place ? <p className="cm-place">{place}</p> : null}
         {level ? <p className="cm-level">{level}</p> : null}
         {desc && !config.hideDescription ? <p className="cm-desc">{desc}</p> : null}

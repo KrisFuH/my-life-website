@@ -1,0 +1,29 @@
+/* 拾光集右侧功能入口 */
+.exp-tools {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.exp-tool-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 56px;
+  padding: 9px 4px;
+  border: 1px solid var(--paper-line, rgba(0,0,0,.14));
+  border-radius: 14px;
+  background: var(--paper-surface, #fff);
+  color: var(--paper-ink, #333);
+  box-shadow: 0 6px 18px rgba(0,0,0,.14);
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.exp-tool-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.2); }
+.exp-tool-icon { font-size: 20px; line-height: 1; }
+.exp-tool-label { font-size: 12px; font-weight: 700; }

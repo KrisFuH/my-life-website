@@ -1,0 +1,47 @@
+.fp-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.fp-panel {
+  width: min(80vw, 1200px);
+  height: min(80vh, 860px);
+  background: var(--paper-surface, #fff);
+  color: var(--paper-ink, #222);
+  border: 1px solid var(--paper-line, rgba(0, 0, 0, 0.12));
+  border-radius: 16px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.fp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--paper-line, rgba(0, 0, 0, 0.1));
+  flex: none;
+}
+.fp-title { margin: 0; font-size: 18px; font-weight: 700; }
+.fp-close {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.fp-close:hover { background: rgba(128, 128, 128, 0.18); }
+.fp-body { flex: 1; overflow: auto; padding: 18px 20px; }
+
+.fp-loading { padding: 50px 10px; text-align: center; color: var(--paper-ink-faint, #888); }
