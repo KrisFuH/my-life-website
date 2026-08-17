@@ -143,7 +143,12 @@ export default function GamePuzzle() {
       <div className="pp-canvas" ref={canvasRef} style={{ height: layout.posterH || 'auto' }}>
         {layout.tiles.map((t) => (
           <div key={t.id} className="pp-tile" style={{ left: t.x, top: t.y, width: t.w, height: t.h }}>
-            {t.cover ? <img className="pp-img" src={coverSrc(t.cover)} alt={t.title} loading="lazy" /> : (
+            {t.cover ? (
+              <>
+                <img className="pp-bg" src={coverSrc(t.cover)} alt="" aria-hidden="true" />
+                <img className="pp-img" src={coverSrc(t.cover)} alt={t.title} loading="lazy" />
+              </>
+            ) : (
               <div className="pp-ph">{t.title.replace(/[《》]/g, '')}</div>
             )}
             <div className="pp-overlay">

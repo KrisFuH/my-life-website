@@ -23,7 +23,8 @@
   box-shadow: 0 6px 22px rgba(0,0,0,.25);
 }
 .pp-tile { position: absolute; overflow: hidden; background: #1d1d28; cursor: pointer; }
-.pp-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pp-bg { position: absolute; inset: -10px; width: calc(100% + 20px); height: calc(100% + 20px); object-fit: cover; filter: blur(12px) brightness(.55); transform: scale(1.08); pointer-events: none; }
+.pp-img { position: relative; width: 100%; height: 100%; object-fit: contain; display: block; }
 .pp-ph {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
@@ -41,6 +42,7 @@
 /* 悬浮浮层：名称 + 时长 */
 .pp-overlay {
   position: absolute; inset: 0;
+  z-index: 2;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   gap: 4px; padding: 8px; box-sizing: border-box; text-align: center;
