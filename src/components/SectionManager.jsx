@@ -44,7 +44,7 @@ const CONFIGS = {
       { key: 'description', label: '描述', type: 'textarea', placeholder: '写下这段体验……' },
       { key: 'image', label: '图片 URL', type: 'text', placeholder: 'https://... 或 /images/xxx.jpg' },
     ],
-    empty: { kind: '', category: '', date: '', title: '', place: '', duration: '0h', rating: '', description: '', tags: [], image: '' },
+    empty: { kind: '', category: '', date: '', title: '', place: '', duration: '5h', rating: '', description: '', tags: [], image: '' },
   },
 };
 

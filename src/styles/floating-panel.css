@@ -10,8 +10,8 @@
   padding: 20px;
 }
 .fp-panel {
-  width: min(80vw, 1200px);
-  height: min(80vh, 860px);
+  width: min(93vw, 1500px);
+  height: min(90vh, 1000px);
   background: var(--paper-surface, #fff);
   color: var(--paper-ink, #222);
   border: 1px solid var(--paper-line, rgba(0, 0, 0, 0.12));
